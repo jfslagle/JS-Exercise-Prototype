@@ -139,10 +139,18 @@ console.log(littleBaby.play());
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. Window Binding- If none of the other rules apply, the "this" prints to the Window. If you're in strict mode the code will return undefined.
+  2. Implicit Binding- This only applies to an object with methods (methods are when a FUNCTION is stored as an OBJECT property)
+  3. Explicit Binding- 
+  Call - Immediately invokes the function. With .call you pass in arguments 1 by 1.
+// Apply - Immediately invokes the function. With .apply you pass in arguments as an array.
+// Bind - Arguments are passed in 1 by 1, but they do not immediately invoke the function. It returns a new function that can be invoked later on.
+
+All of the above state what the "this" keyword refers to.
+
+  4. New Binding- The keyword "new" constructs a new object and "this" then refers to it. When a function is invoked as a constructor function using the "new" keyword, "this" refers to the new object that's created. Proper syntax is to caplitalize the function name of a Constructor Function.
+
+  BONUS PRINCIPLE- When Arrow functions are used, "this" retains the same value as it's parent.
 */
 
 ///////// END OF CHALLENGE /////////
