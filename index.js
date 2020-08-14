@@ -19,7 +19,6 @@ Airplane.prototype.land = function () {
   this.isFlying = false;
 };
 
-
 /*
 // 👇 COMPLETE YOUR WORK BELOW 👇
 // 👇 COMPLETE YOUR WORK BELOW 👇
@@ -39,9 +38,38 @@ Airplane.prototype.land = function () {
         + It should return a string with `name` and `age`. Example: "Mary, 50"
 */
 
-function Person() {
+// create constructor function for Person
+// it takes 3 properties: name, age, stomach- which is an empty array
 
+function Person(name, age) {
+  this.name = name;
+  this.age = age;
+  this.stomach = [];
 }
+// create an eat function that gives the person the ability to eat some food. It has a parameter of something that we can pass food into as an argument. If the stomach length is less than 10, the person can eat. If the stomach's greater than 10, person can't eat anymore. We want to push arguments to the new array.
+Person.prototype.eat = function (edible) {
+  if (this.stomach.length < 10) {
+    this.stomach.push(edible);
+  }
+};
+// create a poop method - poop method empties the stomach.
+Person.prototype.poop = function () {
+  this.stomach = [];
+};
+// method called toString - needs to return name and age.
+Person.prototype.toString = function () {
+  return `${this.name}, ${this.age}`;
+};
+
+const personOne = new Person("Mary", "50");
+
+console.log(personOne.toString());
+personOne.eat("sushi");
+personOne.eat("cheeseburgers");
+personOne.eat("crepes");
+console.log(personOne.stomach);
+personOne.poop();
+console.log(personOne.stomach);
 
 /*
   TASK 2
@@ -57,9 +85,33 @@ function Person() {
         + The `drive` method should return a string "I ran out of fuel at x miles!" x being `odometer`.
 */
 
-function Car() {
-
+function Car(model, milesPerGallon) {
+  this.model = model;
+  this.milesPerGallon = milesPerGallon;
+  this.tank = 0;
+  this.odometer = 0;
 }
+Car.prototype.fill = function (gallons) {
+  this.tank += gallons;
+};
+Car.prototype.drive = function (miles) {
+  const fuelUsed = miles / this.milesPerGallon;
+  if (this.tank >= fuelUsed) {
+    // if you have enough fuel (if tank is more than or equal to the fuel used)
+    this.odometer += miles; // you add to your odometer by increments.
+    this.tank -= fuelUsed; // you detract that fuel from the tank
+  } else {
+    const milesDriven = this.milesPerGallon * this.tank;
+    this.odometer += milesDriven;
+    this.tank = 0;
+    return `I ran out of fuel at ${this.odometer} miles!`;
+  }
+};
+
+const thisCar = new Car("Toyota", 25);
+thisCar.fill(18);
+thisCar.drive(10);
+console.log(thisCar.tank);
 
 /*
   TASK 3
@@ -68,28 +120,54 @@ function Car() {
     - Besides the methods on Person.prototype, babies have the ability to `.play()`:
         + Should return a string "Playing with x", x being the favorite toy.
 */
-function Baby() {
 
+function Baby(name, age, favoriteToy) {
+  Person.call(this, name, age);
+  this.favoriteToy = favoriteToy;
 }
+Baby.prototype = new Person();
+Baby.prototype.play = function () {
+  console.log(
+    `${this.name} is admiring its especially soft ${this.favoriteToy}`
+  );
+  return `Playing with a ${this.favoriteToy}`;
+};
+const littleBaby = new Baby("Tubby", "6 months", "rattle");
+console.log(littleBaby.play());
 
 /* 
   TASK 4
 
   In your own words explain the four principles for the "this" keyword below:
-  1. 
-  2. 
-  3. 
-  4. 
+  1. Window Binding- If none of the other rules apply, the "this" prints to the Window. If you're in strict mode the code will return undefined.
+  2. Implicit Binding- This only applies to an object with methods (methods are when a FUNCTION is stored as an OBJECT property)
+  3. Explicit Binding- 
+  Call - Immediately invokes the function. With .call you pass in arguments 1 by 1.
+// Apply - Immediately invokes the function. With .apply you pass in arguments as an array.
+// Bind - Arguments are passed in 1 by 1, but they do not immediately invoke the function. It returns a new function that can be invoked later on.
+
+All of the above state what the "this" keyword refers to.
+
+  4. New Binding- The keyword "new" constructs a new object and "this" then refers to it. When a function is invoked as a constructor function using the "new" keyword, "this" refers to the new object that's created. Proper syntax is to caplitalize the function name of a Constructor Function.
+
+  BONUS PRINCIPLE- When Arrow functions are used, "this" retains the same value as it's parent.
 */
 
-
 ///////// END OF CHALLENGE /////////
 ///////// END OF CHALLENGE /////////
 ///////// END OF CHALLENGE /////////
-if (typeof exports !== 'undefined') {
-  module.exports = module.exports || {}
-  if (Airplane) { module.exports.Airplane = Airplane }
-  if (Person) { module.exports.Person = Person }
-  if (Car) { module.exports.Car = Car }
-  if (Baby) { module.exports.Baby = Baby }
+if (typeof exports !== "undefined") {
+  module.exports = module.exports || {};
+  if (Airplane) {
+    module.exports.Airplane = Airplane;
+  }
+  if (Person) {
+    module.exports.Person = Person;
+  }
+  if (Car) {
+    module.exports.Car = Car;
+  }
+  if (Baby) {
+    module.exports.Baby = Baby;
+  }
 }
